@@ -1,0 +1,29 @@
+                           precision    recall  f1-score   support
+
+                 Advocate       1.00      1.00      1.00         2
+                     Arts       1.00      1.00      1.00         1
+       Automation Testing       0.33      1.00      0.50         1
+               Blockchain       1.00      1.00      1.00         1
+         Business Analyst       0.00      0.00      0.00         1
+           Civil Engineer       1.00      1.00      1.00         1
+             Data Science       1.00      1.00      1.00         2
+                 Database       1.00      1.00      1.00         2
+          DevOps Engineer       1.00      0.50      0.67         2
+         DotNet Developer       1.00      0.50      0.67         2
+            ETL Developer       1.00      1.00      1.00         1
+   Electrical Engineering       1.00      1.00      1.00         1
+                       HR       0.67      1.00      0.80         2
+                   Hadoop       1.00      1.00      1.00         2
+       Health and fitness       0.50      1.00      0.67         1
+           Java Developer       0.75      1.00      0.86         3
+      Mechanical Engineer       1.00      1.00      1.00         1
+Network Security Engineer       1.00      1.00      1.00         1
+         Python Developer       0.50      1.00      0.67         1
+            SAP Developer       1.00      1.00      1.00         1
+                    Sales       1.00      1.00      1.00         1
+                  Testing       0.00      0.00      0.00         2
+            Web Designing       0.00      0.00      0.00         1
+
+                 accuracy                           0.82        33
+                macro avg       0.77      0.83      0.77        33
+             weighted avg       0.79      0.82      0.78        33
