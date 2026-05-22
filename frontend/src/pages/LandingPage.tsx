@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import {
-  ArrowRight, Brain, Target, GitMerge, Upload, CheckCircle, Star,
+  ArrowRight, Brain, Target, GitMerge, CheckCircle, Star,
   Zap, Shield, TrendingUp, ChevronRight, Play, Sparkles,
 } from 'lucide-react';
 import Navbar from '../components/landing/Navbar';
@@ -10,7 +11,7 @@ import Footer from '../components/landing/Footer';
 import { useTypewriter } from '../hooks/useTypewriter';
 import ProgressBar from '../components/ui/ProgressBar';
 
-const fadeUp = {
+  const fadeUp: Variants = {
   hidden: { opacity: 0, y: 30 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,

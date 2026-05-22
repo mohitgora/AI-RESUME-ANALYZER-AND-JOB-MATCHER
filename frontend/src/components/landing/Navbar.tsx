@@ -8,7 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { theme, toggleTheme, isDark } = useTheme();
+  const {  toggleTheme, isDark } = useTheme();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 

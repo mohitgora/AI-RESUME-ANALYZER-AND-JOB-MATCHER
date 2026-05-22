@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Brain, LayoutDashboard, FileText, Target, GitMerge, Upload,
-  History, Settings, User, LogOut, Bell, Search, Menu, X,
+  History, Settings, User, LogOut, Bell, Search, Menu, 
   ChevronDown, Sun, Moon, Zap,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';

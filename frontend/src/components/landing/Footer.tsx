@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Brain, Twitter, Github, Linkedin, Mail } from 'lucide-react';
-
+import { Brain, Mail } from 'lucide-react';
+import { FaTwitter, FaGithub, FaLinkedin } from 'react-icons/fa';
 const Footer: React.FC = () => (
   <footer className="bg-dark-950 border-t border-white/5">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -17,7 +16,7 @@ const Footer: React.FC = () => (
             AI-powered resume analysis platform helping professionals land their dream jobs with intelligent insights.
           </p>
           <div className="flex items-center gap-3">
-            {[Twitter, Github, Linkedin, Mail].map((Icon, i) => (
+            {[FaTwitter, FaGithub, FaLinkedin, Mail].map((Icon, i) => (
               <a key={i} href="#" className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition-all">
                 <Icon className="w-4 h-4" />
               </a>

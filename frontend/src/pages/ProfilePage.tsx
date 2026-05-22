@@ -1,163 +1,215 @@
-import React from "react";
-import { motion } from "framer-motion";
-import {
-  Clock,
-  FileText,
-  TrendingUp,
-  Brain,
-  Search,
-  Filter,
-  Download,
-} from "lucide-react";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { User, Mail, Calendar, CreditCard as Edit3, Save, Award, TrendingUp, FileText, Target, Zap } from 'lucide-react';
+import DashboardLayout from '../layouts/DashboardLayout';
+import { useAuth } from '../context/AuthContext';
+import { useResume } from '../context/ResumeContext';
+import { useToast } from '../hooks/useToast';
+import ToastContainer from '../components/ui/Toast';
+import ProgressBar from '../components/ui/ProgressBar';
+import { formatDate, getScoreLabel } from '../utils/helpers';
 
-const history = [
-  {
-    id: 1,
-    role: "AI Engineer",
-    score: 91,
-    company: "OpenAI",
-    date: "2 hours ago",
-  },
-  {
-    id: 2,
-    role: "Software Engineer",
-    score: 84,
-    company: "Google",
-    date: "Yesterday",
-  },
-  {
-    id: 3,
-    role: "Data Scientist",
-    score: 79,
-    company: "Meta",
-    date: "2 days ago",
-  },
-  {
-    id: 4,
-    role: "Backend Engineer",
-    score: 88,
-    company: "Amazon",
-    date: "4 days ago",
-  },
-];
+const ProfilePage: React.FC = () => {
+  const { user } = useAuth();
+  const { analyses } = useResume();
+  const { toasts, addToast, removeToast } = useToast();
+  const [editing, setEditing] = useState(false);
+  const [displayName, setDisplayName] = useState(user?.name || '');
+  const [bio, setBio] = useState('AI-focused software engineer passionate about building intelligent systems.');
 
-const HistoryPage: React.FC = () => {
+  const withAts = analyses.filter(a => a.atsReport);
+  const avgScore = withAts.length
+    ? Math.round(withAts.reduce((s, a) => s + a.atsReport!.final_score, 0) / withAts.length)
+    : 0;
+  const bestScore = withAts.length ? Math.max(...withAts.map(a => a.atsReport!.final_score)) : 0;
+
+  const allSkills = analyses
+    .flatMap(a => a.atsReport?.resume_skills || [])
+    .reduce((acc, skill) => {
+      acc[skill] = (acc[skill] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  const topSkills = Object.entries(allSkills).sort((a, b) => b[1] - a[1]).slice(0, 10);
+
+  const handleSave = () => {
+    setEditing(false);
+    addToast('success', 'Profile updated');
+  };
+
+  const planColors: Record<string, string> = {
+    free: 'from-slate-500 to-slate-600',
+    pro: 'from-brand-500 to-brand-600',
+    enterprise: 'from-yellow-500 to-orange-500',
+  };
+
   return (
-    <div className="min-h-screen bg-dark-900 text-white p-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold">Resume History</h1>
-          <p className="text-slate-400 mt-2">
-            Track all your previous resume analyses
-          </p>
-        </div>
+    <DashboardLayout>
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
+      <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
+          <h1 className="text-2xl font-bold text-white">Profile</h1>
+          <p className="text-slate-500 text-sm">Manage your account information</p>
+        </motion.div>
 
-        <button className="btn-primary">
-          <Download className="w-4 h-4" />
-          Export History
-        </button>
-      </div>
-
-      {/* Search */}
-      <div className="glass-card p-4 flex flex-col md:flex-row gap-4 mb-8">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-3.5 w-4 h-4 text-slate-500" />
-          <input
-            type="text"
-            placeholder="Search analysis..."
-            className="input-field pl-10"
-          />
-        </div>
-
-        <button className="btn-secondary">
-          <Filter className="w-4 h-4" />
-          Filters
-        </button>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="glass-card p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-slate-400 text-sm">Total Analyses</p>
-              <h2 className="text-3xl font-bold mt-2">48</h2>
-            </div>
-
-            <div className="w-14 h-14 rounded-2xl bg-brand-500/20 flex items-center justify-center">
-              <FileText className="w-7 h-7 text-brand-400" />
-            </div>
-          </div>
-        </div>
-
-        <div className="glass-card p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-slate-400 text-sm">Average ATS</p>
-              <h2 className="text-3xl font-bold mt-2">86%</h2>
-            </div>
-
-            <div className="w-14 h-14 rounded-2xl bg-green-500/20 flex items-center justify-center">
-              <TrendingUp className="w-7 h-7 text-green-400" />
-            </div>
-          </div>
-        </div>
-
-        <div className="glass-card p-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-slate-400 text-sm">AI Suggestions</p>
-              <h2 className="text-3xl font-bold mt-2">126</h2>
-            </div>
-
-            <div className="w-14 h-14 rounded-2xl bg-purple-500/20 flex items-center justify-center">
-              <Brain className="w-7 h-7 text-purple-400" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* History List */}
-      <div className="space-y-5">
-        {history.map((item, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <motion.div
-            key={item.id}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.08 }}
-            className="glass-card p-6 hover:border-brand-500/40 transition-all duration-300"
+            transition={{ delay: 0.1 }}
+            className="glass-card p-6 flex flex-col items-center text-center"
           >
-            <div className="flex flex-col lg:flex-row justify-between gap-5">
-              <div>
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold">{item.role}</h2>
-
-                  <span className="px-3 py-1 rounded-full text-xs bg-brand-500/20 text-brand-400 border border-brand-500/30">
-                    ATS {item.score}%
-                  </span>
-                </div>
-
-                <p className="text-slate-400 mt-2">
-                  Resume matched with{" "}
-                  <span className="text-white">{item.company}</span>
-                </p>
-
-                <div className="flex items-center gap-2 mt-4 text-sm text-slate-500">
-                  <Clock className="w-4 h-4" />
-                  {item.date}
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <button className="btn-secondary">View Report</button>
-                <button className="btn-primary">Analyze Again</button>
-              </div>
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-2xl font-bold mb-4 shadow-glow-md">
+              {user?.name.charAt(0).toUpperCase()}
             </div>
+
+            {editing ? (
+              <input
+                value={displayName}
+                onChange={e => setDisplayName(e.target.value)}
+                className="input-field text-center text-sm mb-2"
+              />
+            ) : (
+              <h2 className="text-lg font-bold text-white mb-1">{user?.name}</h2>
+            )}
+            <p className="text-sm text-slate-500 mb-3">{user?.email}</p>
+
+            <span className={`px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${planColors[user?.plan || 'free']} mb-4`}>
+              {(user?.plan || 'free').toUpperCase()} PLAN
+            </span>
+
+            {editing ? (
+              <textarea
+                value={bio}
+                onChange={e => setBio(e.target.value)}
+                className="input-field text-sm resize-none h-20 mb-4 text-center"
+              />
+            ) : (
+              <p className="text-xs text-slate-400 mb-4 leading-relaxed">{bio}</p>
+            )}
+
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-5">
+              <Calendar className="w-3.5 h-3.5" />
+              Joined {user?.joinedAt ? formatDate(user.joinedAt) : 'N/A'}
+            </div>
+
+            {editing ? (
+              <button onClick={handleSave} className="btn-primary w-full justify-center text-sm py-2">
+                <Save className="w-4 h-4" /> Save Changes
+              </button>
+            ) : (
+              <button onClick={() => setEditing(true)} className="btn-secondary w-full justify-center text-sm py-2">
+                <Edit3 className="w-4 h-4" /> Edit Profile
+              </button>
+            )}
           </motion.div>
-        ))}
+
+          <div className="lg:col-span-2 space-y-5">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="grid grid-cols-2 sm:grid-cols-4 gap-3"
+            >
+              {[
+                { icon: FileText, label: 'Total Analyses', value: analyses.length, color: 'text-brand-400', bg: 'bg-brand-500/10' },
+                { icon: Target, label: 'ATS Checks', value: withAts.length, color: 'text-accent-400', bg: 'bg-accent-500/10' },
+                { icon: TrendingUp, label: 'Avg Score', value: avgScore ? `${avgScore}%` : '--', color: 'text-sky-400', bg: 'bg-sky-500/10' },
+                { icon: Award, label: 'Best Score', value: bestScore ? `${bestScore}%` : '--', color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+              ].map(stat => (
+                <div key={stat.label} className="glass-card p-4">
+                  <div className={`w-8 h-8 rounded-lg ${stat.bg} flex items-center justify-center mb-2`}>
+                    <stat.icon className={`w-4 h-4 ${stat.color}`} />
+                  </div>
+                  <p className="text-xl font-bold text-white">{stat.value}</p>
+                  <p className="text-xs text-slate-500">{stat.label}</p>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="glass-card p-6"
+            >
+              <h3 className="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-brand-400" />
+                Performance Overview
+              </h3>
+              {withAts.length > 0 ? (
+                <div className="space-y-3">
+                  <ProgressBar label="Average ATS Score" value={avgScore} />
+                  <ProgressBar label="Best ATS Score" value={bestScore} />
+                  <ProgressBar label="Profile Completeness" value={75} />
+                  <div className="pt-2 text-xs text-slate-500">
+                    Score rating: <span className="text-white font-semibold">{getScoreLabel(avgScore)}</span>
+                  </div>
+                </div>
+              ) : (
+                <div className="py-6 text-center">
+                  <p className="text-slate-500 text-sm">Run your first ATS analysis to see performance metrics.</p>
+                </div>
+              )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+              className="glass-card p-6"
+            >
+              <h3 className="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                <Zap className="w-4 h-4 text-brand-400" />
+                Detected Skills
+              </h3>
+              {topSkills.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {topSkills.map(([skill, count]) => (
+                    <div key={skill} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-500/10 border border-brand-500/20 text-xs font-medium text-brand-300">
+                      {skill}
+                      {count > 1 && <span className="text-brand-500">x{count}</span>}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-slate-500 text-sm">No skills detected yet. Run an ATS analysis to see your skills.</p>
+              )}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="glass-card p-6"
+            >
+              <h3 className="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                <User className="w-4 h-4 text-brand-400" />
+                Account Details
+              </h3>
+              <div className="space-y-3">
+                {[
+                  { label: 'Full Name', value: user?.name, icon: User },
+                  { label: 'Email Address', value: user?.email, icon: Mail },
+                  { label: 'Account Plan', value: `${user?.plan?.toUpperCase()} Plan`, icon: Award },
+                  { label: 'Member Since', value: user?.joinedAt ? formatDate(user.joinedAt) : 'N/A', icon: Calendar },
+                ].map(item => (
+                  <div key={item.label} className="flex items-center gap-3 py-2 border-b border-white/5 last:border-0">
+                    <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center flex-shrink-0">
+                      <item.icon className="w-3.5 h-3.5 text-slate-500" />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs text-slate-500">{item.label}</p>
+                      <p className="text-sm text-slate-200 font-medium">{item.value}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 };
 
-export default HistoryPage;
+export default ProfilePage;
