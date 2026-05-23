@@ -22,10 +22,10 @@ const SAMPLE_ANALYTICS = [
 ];
 
 const quickActions = [
-  { label: 'Analyze Resume', icon: FileText, to: '/analyze', color: 'from-brand-500 to-brand-600', desc: 'Classify & analyze' },
-  { label: 'ATS Report', icon: Target, to: '/ats', color: 'from-accent-500 to-accent-600', desc: 'Score vs job description' },
-  { label: 'Semantic Match', icon: GitMerge, to: '/semantic', color: 'from-sky-500 to-sky-600', desc: 'Embedding similarity' },
-  { label: 'Upload PDF', icon: Upload, to: '/upload', color: 'from-orange-500 to-orange-600', desc: 'Drag & drop upload' },
+  { label: 'Analyze Resume', icon: FileText, to: '/api/analyze', color: 'from-brand-500 to-brand-600', desc: 'Classify & analyze' },
+  { label: 'ATS Report', icon: Target, to: '/api/ats', color: 'from-accent-500 to-accent-600', desc: 'Score vs job description' },
+  { label: 'Semantic Match', icon: GitMerge, to: '/api/semantic', color: 'from-sky-500 to-sky-600', desc: 'Embedding similarity' },
+  { label: 'Upload PDF', icon: Upload, to: '/api/upload', color: 'from-orange-500 to-orange-600', desc: 'Drag & drop upload' },
 ];
 
 const DashboardPage: React.FC = () => {

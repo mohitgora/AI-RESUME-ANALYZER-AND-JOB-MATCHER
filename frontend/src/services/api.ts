@@ -34,24 +34,24 @@ export interface UploadResponse {
 }
 
 export const predictCategory = async (resume_text: string): Promise<PredictResponse> => {
-  const { data } = await api.post('/predict', { resume_text });
+  const { data } = await api.post('/api/predict', { resume_text });
   return data;
 };
 
 export const analyzeATS = async (resume_text: string, job_description: string): Promise<ATSResponse> => {
-  const { data } = await api.post('/ats', { resume_text, job_description });
+  const { data } = await api.post('/api/ats', { resume_text, job_description });
   return data;
 };
 
 export const semanticMatch = async (resume_text: string, job_description: string): Promise<SemanticResponse> => {
-  const { data } = await api.post('/semantic', { resume_text, job_description });
+  const { data } = await api.post('/api/semantic', { resume_text, job_description });
   return data;
 };
 
 export const uploadResume = async (file: File): Promise<UploadResponse> => {
   const formData = new FormData();
   formData.append('file', file);
-  const { data } = await api.post('/upload', formData, {
+  const { data } = await api.post('/api/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   return data;

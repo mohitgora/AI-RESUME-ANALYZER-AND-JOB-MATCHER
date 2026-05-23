@@ -20,34 +20,48 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware
+# CORS (SAFE CONFIG)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routes
+# =========================
+# ROUTES (ALL UNDER /api)
+# =========================
 app.include_router(predict.router, prefix="/api", tags=["Resume"])
 app.include_router(ats.router, prefix="/api", tags=["ATS"])
 app.include_router(semantic.router, prefix="/api", tags=["Semantic"])
 app.include_router(upload.router, prefix="/api", tags=["Upload"])
 
+# =========================
+# HEALTH CHECK
+# =========================
 @app.get("/")
 async def root():
-    return {"message": "ResumAI Backend API", "version": "1.0.0"}
+    return {
+        "message": "ResumAI Backend API",
+        "status": "running"
+    }
 
 @app.get("/health")
 async def health():
     return {"status": "healthy"}
 
+# =========================
+# RUN SERVER
+# =========================
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
         "main:app",
-        host=settings.api_host,
-        port=settings.api_port,
-        reload=settings.debug
+        host="127.0.0.1",
+        port=8000,
+        reload=True
     )
