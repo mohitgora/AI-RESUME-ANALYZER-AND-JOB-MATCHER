@@ -1,0 +1,12 @@
+venv/ 
+(
+echo venv/
+echo __pycache__/
+echo *.pyc
+echo .env
+echo node_modules/
+echo dist/
+echo build/
+echo *.log
+echo .DS_Store
+) > .gitignore
