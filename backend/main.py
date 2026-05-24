@@ -2,8 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
-from routes import predict, ats, semantic, upload
-from config import get_settings
+from backend.routes import predict, ats, semantic, upload
+from backend.config import get_settings
 
 settings = get_settings()
 
@@ -59,9 +59,10 @@ async def health():
 # =========================
 if __name__ == "__main__":
     import uvicorn
+
     uvicorn.run(
-        "main:app",
-        host="127.0.0.1",
-        port=8000,
+        "backend.main:app",
+        host="0.0.0.0",
+        port=10000,
         reload=True
     )
