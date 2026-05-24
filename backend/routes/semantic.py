@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from schemas import SemanticRequest, SemanticResponse
-from services.semantic_service import semantic_service
+from backend.schemas import SemanticRequest, SemanticResponse
+from backend.services.semantic_service import semantic_service
 
 router = APIRouter()
 

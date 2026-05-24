@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from schemas import PredictResponse
-from services.pdf_service import pdf_service
-from services.ml_service import ml_service
+from backend.schemas import PredictResponse
+from backend.services.pdf_service import pdf_service
+from backend.services.ml_service import ml_service
 
 router = APIRouter()
 

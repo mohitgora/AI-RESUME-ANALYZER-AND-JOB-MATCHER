@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from schemas import ATSRequest, ATSResponse
-from services.ats_service import ats_service
+from backend.schemas import ATSRequest, ATSResponse
+from backend.services.ats_service import ats_service
 
 router = APIRouter()
 
