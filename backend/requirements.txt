@@ -8,11 +8,11 @@ pydantic-settings==2.4.0
 PyPDF2==3.0.1
 
 numpy==1.26.4
-scikit-learn==1.5.1
+scikit-learn==1.4.2
 
 sentence-transformers==3.0.1
 transformers==4.44.2
-torch==2.4.0
+torch==2.2.2
 
 python-dotenv==1.0.1
 
