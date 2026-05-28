@@ -65,7 +65,7 @@ async def predict_resume(
         # MINIMUM CONTENT VALIDATION
         # ==========================================
 
-        if len(resume_text) < 100:
+        if len(resume_text) < 80:
 
             raise HTTPException(
 
@@ -82,7 +82,7 @@ async def predict_resume(
         # ==========================================
 
         prediction_result = (
-            ml_service.predict_resume(
+            ml_service.predict_category(
                 resume_text
             )
         )
@@ -98,7 +98,7 @@ async def predict_resume(
         )
 
         experience_years = (
-            ml_service.extract_experience_years(
+            ml_service.estimate_experience_years(
                 resume_text
             )
         )
@@ -130,8 +130,7 @@ async def predict_resume(
 
         response_data = {
 
-            "predicted_role":
-                prediction_result["role"],
+            "predicted_role": prediction_result["predicted_role"],
 
             "confidence":
                 prediction_result["confidence"],

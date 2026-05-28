@@ -97,15 +97,7 @@ async def upload_resume(file: UploadFile = File(...)):
 
         experience_years = ml_service.estimate_experience_years(extracted_text)
 
-        # ==========================================================
-        # QUALITY SCORE
-        # ==========================================================
-
-        resume_quality = _calculate_resume_quality(
-            prediction_result["confidence"],
-            len(extracted_skills),
-            experience_years
-        )
+        
 
         # ==========================================================
         # RESPONSE TIME

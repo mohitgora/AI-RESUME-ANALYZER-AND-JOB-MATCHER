@@ -302,7 +302,7 @@ class ATSService:
                     resume_skill
                 )
 
-                if similarity >= 0.75:
+                if similarity >= 0.70:
                     matched.append(jd_skill)
                     found = True
                     break

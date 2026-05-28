@@ -123,11 +123,14 @@ class SemanticRequest(BaseSchema):
 
 
 class SemanticResponse(BaseSchema):
-    similarity_score: float
-    semantic_alignment: str
-    matched_topics: List[str]
-    missing_topics: List[str]
-    explanation: str
+    semantic_score: float
+    skill_match_score: float
+    experience_score: float
+    final_score: float
+    match_level: str
+    matched_skills: List[str]
+    missing_skills: List[str]
+    feedback: List[str]
 
 
 # =========================================
