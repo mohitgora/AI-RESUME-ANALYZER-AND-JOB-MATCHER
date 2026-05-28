@@ -81,19 +81,14 @@ app = FastAPI(
 # =========================================
 # CORS CONFIG
 # =========================================
-allowed_origins = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://ai-resume-analyzer-and-job-matcher-six.vercel.app"
-]
-
-# ADD FRONTEND URL FROM ENV
-if hasattr(settings, "frontend_url") and settings.frontend_url:
-    allowed_origins.append(settings.frontend_url)
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins if settings.debug else ["*"],
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://ai-resume-analyzer-and-job-matcher-six.vercel.app",
+        "https://ai-resume-analyzer-and-job-matcher-6.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
