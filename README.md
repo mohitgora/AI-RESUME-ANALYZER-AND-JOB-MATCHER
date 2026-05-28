@@ -1,6 +1,6 @@
 ---
 title: Resume AI Backend
-sdk: docker
+sdk: gradio
 app_file: app.py
 ---
 
