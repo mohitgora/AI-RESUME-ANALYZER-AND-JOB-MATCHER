@@ -9,6 +9,7 @@ from datetime import datetime
 class BaseSchema(BaseModel):
     model_config = {
         "from_attributes": True,
+        "extra": "allow",   #  IMPORTANT FIX
         "json_schema_extra": {
             "example": {}
         }

@@ -1,5 +1,5 @@
-from pydantic_settings import BaseSettings
 from functools import lru_cache
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -8,132 +8,136 @@ class Settings(BaseSettings):
     # FASTAPI
     # =====================================================
 
-    API_HOST: str = "0.0.0.0"
-    API_PORT: int = 8000
-    DEBUG: bool = True
+    api_host: str = "0.0.0.0"
+    api_port: int = 8000
+    debug: bool = True
 
     # =====================================================
     # FRONTEND
     # =====================================================
 
-    FRONTEND_URL: str = "http://localhost:5173"
-    FRONTEND_URL_2: str = "http://127.0.0.1:5173"
+    frontend_url: str = "http://localhost:5173"
+    frontend_url_2: str = "http://127.0.0.1:5173"
 
     # =====================================================
     # SECURITY
     # =====================================================
 
-    SECRET_KEY: str
-    ALGORITHM: str = "HS256"
+    secret_key: str
+    algorithm: str = "HS256"
 
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    access_token_expire_minutes: int = 60
 
     # =====================================================
     # ML MODELS
     # =====================================================
 
-    EMBEDDING_MODEL: str = (
+    embedding_model: str = (
         "sentence-transformers/all-MiniLM-L6-v2"
     )
 
-    TFIDF_MAX_FEATURES: int = 10000
+    tfidf_max_features: int = 10000
 
-    SIMILARITY_THRESHOLD: float = 0.65
+    similarity_threshold: float = 0.65
 
-    MAX_TOP_PREDICTIONS: int = 5
+    max_top_predictions: int = 5
 
-    ENABLE_EMBEDDING_CACHE: bool = True
+    enable_embedding_cache: bool = True
 
     # =====================================================
     # FILES
     # =====================================================
 
-    MAX_FILE_SIZE_MB: int = 10
+    max_file_size_mb: int = 10
 
-    ALLOWED_FILE_TYPES: str = "pdf"
+    allowed_file_types: str = "pdf"
 
-    UPLOAD_DIR: str = "uploads"
+    upload_dir: str = "uploads"
 
     # =====================================================
     # LOGGING
     # =====================================================
 
-    LOG_LEVEL: str = "INFO"
+    log_level: str = "INFO"
 
     # =====================================================
     # DATABASE
     # =====================================================
 
-    DATABASE_URL: str = ""
+    database_url: str = ""
 
     # =====================================================
     # REDIS
     # =====================================================
 
-    REDIS_URL: str = ""
+    redis_url: str = ""
 
     # =====================================================
     # SUPABASE
     # =====================================================
 
-    SUPABASE_URL: str = ""
+    supabase_url: str = ""
 
-    SUPABASE_KEY: str = ""
+    supabase_key: str = ""
 
     # =====================================================
     # MODEL PATHS
     # =====================================================
 
-    MODEL_DIR: str = "models_data"
+    model_dir: str = "models_data"
 
-    TFIDF_MODEL: str = "tfidf_model.pkl"
+    tfidf_model: str = "tfidf_model.pkl"
 
-    CLASSIFIER_MODEL: str = "classifier_model.pkl"
+    classifier_model: str = "classifier_model.pkl"
 
-    EMBEDDINGS_CACHE: str = "embeddings_cache.json"
+    embeddings_cache: str = "embeddings_cache.json"
 
     # =====================================================
     # ATS ENGINE
     # =====================================================
 
-    ATS_SKILL_WEIGHT: float = 0.45
+    ats_skill_weight: float = 0.45
 
-    ATS_SEMANTIC_WEIGHT: float = 0.40
+    ats_semantic_weight: float = 0.40
 
-    ATS_EXPERIENCE_WEIGHT: float = 0.15
+    ats_experience_weight: float = 0.15
 
     # =====================================================
     # PDF EXTRACTION
     # =====================================================
 
-    PDF_EXTRACT_MIN_TEXT_LENGTH: int = 100
+    pdf_extract_min_text_length: int = 100
 
     # =====================================================
     # PERFORMANCE
     # =====================================================
 
-    ENABLE_GPU: bool = False
+    enable_gpu: bool = False
 
-    BATCH_SIZE: int = 32
+    batch_size: int = 32
 
     # =====================================================
     # CORS
     # =====================================================
 
-    CORS_ORIGINS: str = (
+    cors_origins: str = (
         "http://localhost:5173,"
         "http://127.0.0.1:5173"
     )
 
-    class Config:
+    # =====================================================
+    # PYDANTIC CONFIG
+    # =====================================================
 
-        env_file = ".env"
-
-        case_sensitive = True
+    model_config = SettingsConfigDict(
+        env_file="backend/.env",
+        case_sensitive=False,
+        extra="ignore",
+        protected_namespaces=()
+    )
 
 
 @lru_cache()
 def get_settings():
-
     return Settings()
 
