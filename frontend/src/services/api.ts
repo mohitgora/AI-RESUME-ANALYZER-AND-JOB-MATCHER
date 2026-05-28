@@ -1,12 +1,17 @@
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+// ✅ fallback added (VERY IMPORTANT)
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  'https://ai-resume-analyzer-and-job-matcher-6.onrender.com';
 
 const api = axios.create({
   baseURL: BASE_URL,
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
 });
+
+// ---------------- TYPES ----------------
 
 export interface PredictResponse {
   category: string;
@@ -33,17 +38,26 @@ export interface UploadResponse {
   category: string;
 }
 
+// ---------------- API CALLS ----------------
+
+// ⚠️ IMPORTANT: remove extra /api if BASE_URL already has /api
 export const predictCategory = async (resume_text: string): Promise<PredictResponse> => {
   const { data } = await api.post('/api/predict', { resume_text });
   return data;
 };
 
-export const analyzeATS = async (resume_text: string, job_description: string): Promise<ATSResponse> => {
+export const analyzeATS = async (
+  resume_text: string,
+  job_description: string
+): Promise<ATSResponse> => {
   const { data } = await api.post('/api/ats', { resume_text, job_description });
   return data;
 };
 
-export const semanticMatch = async (resume_text: string, job_description: string): Promise<SemanticResponse> => {
+export const semanticMatch = async (
+  resume_text: string,
+  job_description: string
+): Promise<SemanticResponse> => {
   const { data } = await api.post('/api/semantic', { resume_text, job_description });
   return data;
 };
@@ -51,9 +65,11 @@ export const semanticMatch = async (resume_text: string, job_description: string
 export const uploadResume = async (file: File): Promise<UploadResponse> => {
   const formData = new FormData();
   formData.append('file', file);
+
   const { data } = await api.post('/api/upload', formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
+
   return data;
 };
 
