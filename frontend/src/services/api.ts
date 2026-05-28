@@ -1,12 +1,10 @@
 import axios from 'axios';
 
 // ✅ fallback added (VERY IMPORTANT)
-const BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  'https://ai-resume-analyzer-and-job-matcher-6.onrender.com';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const api = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL + "/api",
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
 });
