@@ -53,7 +53,7 @@ const SettingsPage: React.FC = () => {
   const [notifications, setNotifications] = useState({
     email: true, analysis: true, tips: false, updates: true,
   });
-  const [apiUrl, setApiUrl] = useState('http://127.0.0.1:8000');
+  const [apiUrl, setApiUrl] = useState(import.meta.env.VITE_API_BASE_URL);
   const [themeMode, setThemeMode] = useState<'dark' | 'light' | 'system'>('dark');
 
   const toggleNotif = (key: keyof typeof notifications) => {

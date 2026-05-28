@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     # FRONTEND
     # =====================================================
 
-    frontend_url: str = "http://localhost:5173"
-    frontend_url_2: str = "http://127.0.0.1:5173"
+    frontend_url: str = "https://ai-resume-analyzer-and-job-matcher-six.vercel.app"
+    frontend_url_2: str = "https://ai-resume-analyzer-and-job-matcher-six.vercel.app"
 
     # =====================================================
     # SECURITY
@@ -121,8 +121,7 @@ class Settings(BaseSettings):
     # =====================================================
 
     cors_origins: str = (
-        "http://localhost:5173,"
-        "http://127.0.0.1:5173"
+        "https://ai-resume-analyzer-and-job-matcher-six.vercel.app"
     )
 
     # =====================================================
