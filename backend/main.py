@@ -245,13 +245,9 @@ async def api_info():
 # =========================================
 # RUN SERVER (OPTIONAL)
 # =========================================
+import os
+import uvicorn
+
 if __name__ == "__main__":
-
     import uvicorn
-
-    uvicorn.run(
-        "backend.main:app",
-        host="0.0.0.0",   # FIXED
-        port=settings.api_port,
-        reload=settings.debug
-    )
+    uvicorn.run("backend.main:app", host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))
