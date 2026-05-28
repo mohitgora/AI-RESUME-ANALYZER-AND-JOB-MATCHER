@@ -55,9 +55,7 @@ class MLService:
         # EMBEDDING MODEL
         # ==========================================
 
-        self.embedding_model = SentenceTransformer(
-            "all-MiniLM-L6-v2"
-        )
+        self.embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
 
         # ==========================================
         # LOAD MODEL
