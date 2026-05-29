@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     # FRONTEND
     # =====================================================
 
-    frontend_url: str = "https://ai-resume-analyzer-and-job-matcher-5-1xya.onrender.com"
-    frontend_url_2: str = "https://ai-resume-analyzer-and-job-matcher-5-1xya.onrender.com"
+    frontend_url: str = ""
+    frontend_url_2: str = ""
 
     # =====================================================
     # SECURITY
@@ -121,7 +121,7 @@ class Settings(BaseSettings):
     # =====================================================
 
     cors_origins: str = (
-        "https://ai-resume-analyzer-and-job-matcher-5-1xya.onrender.com"
+        ""
     )
 
     # =====================================================

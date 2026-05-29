@@ -84,7 +84,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://ai-resume-analyzer-and-job-matcher-5-1xya.onrender.com",
+        "https://ai-resume-analyzer-and-job-matcher-6.onrender.com",
         "http://localhost:5173"
     ],
     allow_credentials=True,
